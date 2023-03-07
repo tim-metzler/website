@@ -1,0 +1,55 @@
+---
+bio: My research interests include sociology of work, econometrics and quantitative methods.
+education:
+  courses:
+  - course: M.A. in Sociology
+    institution: Bielefeld University
+    year: since 2021
+  - course: B.A. in Sociology, Philosophy, Educational Siences
+    institution: University of Münster
+    year: 2019-2021
+  - course: B.A. in Philosophy, Economics
+    institution: University of Saarland
+    year: 2017-2019
+email: "tim-metzler@web.de"
+first_name: Tim
+highlight_name: true
+interests:
+- SEM
+- Classification problems
+- R
+last_name: Metzler
+organizations:
+- name: Bielefeld University
+  url: 
+role: student
+social:
+- icon: envelope
+  icon_pack: fas
+  link: /#contact
+- display:
+    header: true
+  icon: twitter
+  icon_pack: fab
+  label: Follow me on Twitter
+  link: https://twitter.com/
+- icon: graduation-cap
+  icon_pack: fas
+  link: 
+- icon: github
+  icon_pack: fab
+  link: https://github.com/
+- icon: linkedin
+  icon_pack: fab
+  link: https://www.linkedin.com/
+- icon: cv
+  icon_pack: ai
+  link: uploads/resume.pdf
+status:
+  icon: 
+superuser: true
+title: 
+---
+
+Tim Metzler is a sociology student at the University of Bielefeld. His research interests include sociology of work, econometrics and quantitative research methods in general.
+{style="text-align: justify;"}
