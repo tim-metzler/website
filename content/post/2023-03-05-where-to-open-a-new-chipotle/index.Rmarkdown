@@ -22,6 +22,12 @@ projects: []
 <p>In this notebook, the <code>leaflet</code> package in R and data from <a href="https://www.thinknum.com/">Thinknum</a> are used to find potential locations for new Chipotle restaurants as well as the closest place to grab a burrito. </p>
 <p>Thinknum tracks thousands of websites capturing and indexing vast amounts of public data. Let's get started by loading and exploring data on every Chipotle restaurant tracked in the Thinknum data. Then we will build several <code>leaflet</code> maps that we can use to explore the data and to see where we might recommend opening a Chipotle.</p>
 
+```{r hugo, echo = F}
+#library(fontawesome)
+#library(htmltools)
+#library(htmlwidgets)
+```
+
 ```{r libraries, echo = T}
 library(leaflet)
 library(leaflet.extras)
@@ -54,6 +60,16 @@ chipotle %>%
 # Print map of closed chipotles
 closed_chipotles
 ```
+
+```{r map1, echo = F}
+#currentWD <- getwd()
+#dir.create("static/leaflet", showWarnings = T, recursive = T)
+#setwd("static/leaflet")
+#saveWidget(leafMap, "leafMap.html")
+#setwd(currentWD)
+```
+
+<iframe seamless = "" width = "100%" height = "500" class="shortcode-iframe" src="/leaflet/closed_chipotles.html"></iframe>
 
 ## 3. How many Chipotle stores have closed?
 <p>After exploring the map, the first question that comes to mind is why did these particular locations close? In fact, why would any Chipotle ever close? Unfortunately, questions like this defy logic, so after quickly counting up the closed locations, this notebook moves on to the more important question of "Where should the next Chipotle be opened?". </p>
@@ -98,7 +114,15 @@ chipotle_open %>%
 chipotle_heatmap 
 ```
 
+```{r map2, echo = F}
+#currentWD <- getwd()
+#dir.create("static/leaflet", showWarnings = T, recursive = T)
+#setwd("static/leaflet")
+#saveWidget(chipotle_heatmap, "leafMap.html")
+#setwd(currentWD)
+```
 
+<iframe seamless = "" width = "100%" height = "500" class="shortcode-iframe" src="/leaflet/chipotle_heatmap.html"></iframe>
 
 
 ## 5. Which States have the fewest Chipotles?
@@ -174,6 +198,16 @@ sd_pop_map
 ```
 
 
+```{r map3, echo = F}
+#currentWD <- getwd()
+#dir.create("static/leaflet", showWarnings = T, recursive = T)
+#setwd("static/leaflet")
+#saveWidget(sd_pop_map, "sd_pop_map.html")
+#setwd(currentWD)
+```
+
+<iframe seamless = "" width = "100%" height = "500" class="shortcode-iframe" src="/leaflet/sd_pop_map.html"></iframe>
+
 ## 8. Where to open a Chipotle II
 <p>Minnehaha and Pennington counties really stand out on population map. These counties are home to Sioux Falls and Rapid City, respectively. Let's take a closer look at each of the two largest cities in South Dakota to consider what features of the base map may be important when selecting the location of a Chipotle?</p>
 <p>Sioux Falls has a larger population, but Rapid City is proximate to Badlands National park, which has a million visitors a year. Additionally, we should note that I-90, a major interstate in America, runs through both cities.  </p>
@@ -222,6 +256,16 @@ sd_proposed_map <-
 sd_proposed_map
 ```
 
+```{r map4, echo = F}
+#currentWD <- getwd()
+#dir.create("static/leaflet", showWarnings = T, recursive = T)
+#setwd("static/leaflet")
+#saveWidget(sd_proposed_map, "sd_proposed_map.html")
+#setwd(currentWD)
+```
+
+<iframe seamless = "" width = "100%" height = "500" class="shortcode-iframe" src="/leaflet/sd_proposed_map.html"></iframe>
+
 ## 10. Where to open a Chipotle IV
 <p>It looks like there is a Chipotle within a 100 miles of the proposed Sioux Falls location, but not Rapid City. This is helpful to know but perhaps even more helpful would be to understand all of the locations that are closer to a proposed Chipotle than to an open one. </p>
 <p>Voronoi polygons can be used to plot a polygon around each location. The bounds of each polygon will enclose all of the points on the map that are closest to a specific Chipotle. These polygons can then be used to visualize an approximation of the area covered by each Chipotle.  </p>
@@ -246,6 +290,15 @@ voronoi_map <-
 voronoi_map
 ```
 
+```{r map5, echo = F}
+#currentWD <- getwd()
+#dir.create("static/leaflet", showWarnings = T, recursive = T)
+#setwd("static/leaflet")
+#saveWidget(voronoi_map, "voronoi_map.html")
+#setwd(currentWD)
+```
+
+<iframe seamless = "" width = "100%" height = "500" class="shortcode-iframe" src="/leaflet/voronoi_map.html"></iframe>
 
 ## 11. Where should the next Chipotle be opened?
 <p>After loading thousands of Chipotle locations from Thinknum, creating tables and a heatmap, identifying the shocking fact that South Dakota does not have a single Chipotle, using exploratory data analysis to investigate where a store location may make sense, including</p>
