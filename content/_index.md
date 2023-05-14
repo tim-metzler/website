@@ -6,7 +6,7 @@ sections:
     text: null
     username: admin
   id: about
-
+  
 - block: experience
   content:
     date_format: Jan 2006
@@ -138,7 +138,7 @@ sections:
       formspree:
         id: null
       netlify:
-        captcha: false
+        captcha: true
       provider: netlify
     subtitle: null
     text: 
@@ -148,4 +148,6 @@ sections:
   id: contact
 title: null
 type: landing
+show_social_links: false
+
 ---

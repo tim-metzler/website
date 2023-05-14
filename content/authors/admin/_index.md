@@ -29,27 +29,27 @@ social:
   link: /#contact
 - display:
     header: true
-  icon: twitter
-  icon_pack: fab
-  label: Follow me on Twitter
-  link: https://twitter.com/
-- icon: graduation-cap
-  icon_pack: fas
-  link: 
+#  icon: twitter
+#  icon_pack: fab
+#  label: Follow me on Twitter
+#  link: https://twitter.com/
+#- icon: graduation-cap
+#  icon_pack: fas
+#  link: 
 - icon: github
   icon_pack: fab
   link: https://github.com/
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/
-- icon: cv
-  icon_pack: ai
-  link: uploads/resume.pdf
+  link: https://www.linkedin.com/in/tim-m-4ba977255/
+#- icon: cv
+#  icon_pack: ai
+#  link: uploads/resume.pdf
 status:
   icon: 
 superuser: true
 title: 
 ---
 
-Tim Metzler is a sociology student at the University of Bielefeld. His research interests include sociology of work, econometrics and quantitative research methods in general.
+I am Tim Metzler, a sociology student at the University of Bielefeld. My research interests include sociology of work, econometrics and quantitative research methods in general.
 {style="text-align: justify;"}

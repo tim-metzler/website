@@ -1,0 +1,77 @@
+---
+title: test
+author: Tim Metzler
+date: '2023-05-13'
+slug: test
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2023-05-13T20:44:11+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: yes
+projects: []
+---
+{{< math >}}$$
+\begin{aligned}
+  \operatorname{gincdif}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
+    \mu &=\alpha_{j[i],k[i]} + \beta_{1j[i]}(\operatorname{hhincome})\ + \\
+    &\quad \beta_{2}(\operatorname{hhmembers}) + \beta_{3k[i]}(\operatorname{gender}_{\operatorname{female}})\ + \\
+    &\quad \beta_{4}(\operatorname{age}) + \beta_{5}(\operatorname{age\ *\ age}) \\    
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\alpha_{j} \\
+      &\beta_{1j}
+    \end{aligned}
+  \end{array}
+\right)
+  &\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\gamma_{0}^{\alpha} + \gamma_{1}^{\alpha}(\operatorname{GINI}) \\
+      &\mu_{\beta_{1j}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{j}} & \rho_{\alpha_{j}\beta_{1j}} \\ 
+     \rho_{\beta_{1j}\alpha_{j}} & \sigma^2_{\beta_{1j}}
+  \end{array}
+\right)
+ \right) \\
+    &\text{for year j = 1,} \dots \text{,J} \\    
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\alpha_{k} \\
+      &\beta_{3k}
+    \end{aligned}
+  \end{array}
+\right)
+  &\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\mu_{\alpha_{k}} \\
+      &\mu_{\beta_{3k}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{k}} & \rho_{\alpha_{k}\beta_{3k}} \\ 
+     \rho_{\beta_{3k}\alpha_{k}} & \sigma^2_{\beta_{3k}}
+  \end{array}
+\right)
+ \right) \\
+    &\text{for year j = 1,} \dots \text{,J} \\    
+\end{aligned}$${{< /math >}}

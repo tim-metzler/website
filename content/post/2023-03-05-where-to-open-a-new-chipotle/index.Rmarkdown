@@ -6,7 +6,7 @@ slug: where-to-open-a-new-chipotle
 categories: []
 tags: []
 subtitle: ''
-summary: ''
+summary: 'A datacamp project using the leaflet package to find new possible Chiptole locations'
 authors: []
 lastmod: '2023-03-05T13:55:29+01:00'
 featured: no
@@ -23,12 +23,8 @@ projects: []
 <p>Thinknum tracks thousands of websites capturing and indexing vast amounts of public data. Let's get started by loading and exploring data on every Chipotle restaurant tracked in the Thinknum data. Then we will build several <code>leaflet</code> maps that we can use to explore the data and to see where we might recommend opening a Chipotle.</p>
 
 ```{r libraries, echo = T}
-# Load tidyverse, leaflet, and leaflet.extras
-#install.packages("tidyverse")
-#library(tidyverse)
 library(leaflet)
 library(leaflet.extras)
-#library(sf)
 library(readr)
 library(dplyr)
 # Read datasets/chipotle.csv into a tibble named chipotle using read_csv
@@ -160,8 +156,7 @@ https://juliasilge.com/blog/using-tidycensus/) blog post by Julia Silge.  </p>
 
 ```{r 7, echo = F, error=T}
 # Load south_dakota_pop.rds into an object called south_dakota_pop
-south_dakota_pop <- readRDS("datasets/south_dakota_pop.rds")
-
+load("datasets/sdkp.Rda")
 # Create color palette to color map by county population estimate
 pal <- colorNumeric(palette = "viridis", domain = range(south_dakota_pop$estimate))
 
@@ -186,7 +181,7 @@ sd_pop_map
 
 ```{r 8, echo = T}
 # Load chipotle_sd_locations.csv that contains proposed South Dakota locations  
-#chipotle_sd_locations <- read_csv("datasets/chipotle_sd_locations.csv")
+chipotle_sd_locations <- read_csv("datasets/chipotle_sd_locations.csv")
 
 # limit chipotle store data to locations in states boardering South Dakota
 chipotle_market_research <- 
@@ -210,21 +205,21 @@ chipotle_market_research
 
 ```{r 9 , echo = T}
 # Create a blue and red color palette to distinguish between open and proposed stores
-#pal <- colorFactor(palette = c("Blue", "Red"), domain = c("open", "proposed"))
+pal <- colorFactor(palette = c("Blue", "Red"), domain = c("open", "proposed"))
 
 # Map the open and proposed locations
-#sd_proposed_map <-
-#  chipotle_market_research %>% 
-#  leaflet() %>% 
-  # Add the Stamen Toner provider tile
-#  addProviderTiles("Stamen.Toner") %>%
-  # Apply the pal color palette
-#  addCircles(color = ~pal(status)) %>%
+sd_proposed_map <-
+  chipotle_market_research %>% 
+  leaflet() %>% 
+ #Add the Stamen Toner provider tile
+  addProviderTiles("Stamen.Toner") %>%
+# Apply the pal color palette
+  addCircles(color = ~pal(status)) %>%
   # Draw a circle with a 100 mi radius around the proposed locations
-#  addCircles(data = chipotle_sd_locations, radius = 100 * 1609.34, color = ~pal(status), fill = FALSE)  
+  addCircles(data = chipotle_sd_locations, radius = 100 * 1609.34, color = ~pal(status), fill = FALSE)  
 
 # Print the map of proposed locations 
-#sd_proposed_map
+sd_proposed_map
 ```
 
 ## 10. Where to open a Chipotle IV
@@ -235,20 +230,20 @@ chipotle_market_research
 
 ```{r 10, echo = T}
 # load the Voronoi polygon data 
-#polys <- readRDS("datasets/voronoi_polygons.rds")
+load("datasets/polys.Rda")
 
-#voronoi_map <- 
-#  polys %>%
-#  leaflet() %>%
-#  # Use the CartoDB provider tile
-#  addProviderTiles("CartoDB") %>%
-#  # Plot Voronoi polygons using addPolygons
-#  addPolygons(fillColor = ~pal(status), weight = 0.5, color = "black") %>%
-#  # Add proposed and open locations as another layer
-#  addCircleMarkers(data = chipotle_market_research, label = ~city, color = ~pal(status))
+voronoi_map <- 
+  polys %>%
+  leaflet() %>%
+  # Use the CartoDB provider tile
+  addProviderTiles("CartoDB") %>%
+  # Plot Voronoi polygons using addPolygons
+  addPolygons(fillColor = ~pal(status), weight = 0.5, color = "black") %>%
+  # Add proposed and open locations as another layer
+  addCircleMarkers(data = chipotle_market_research, label = ~city, color = ~pal(status))
 
 # Print the Voronoi map
-#voronoi_map
+voronoi_map
 ```
 
 
@@ -263,6 +258,6 @@ chipotle_market_research
 
 ```{r 11, echo = T}
 # Where should the next Chipotle store be? 
-#next_chipotle <- tibble(location = c("Rapid City, SD", "Sioux Falls, SD"),
- #                       open_new_store = c(TRUE, FALSE))
+next_chipotle <- tibble(location = c("Rapid City, SD", "Sioux Falls, SD"),
+                       open_new_store = c(TRUE, FALSE))
 ```

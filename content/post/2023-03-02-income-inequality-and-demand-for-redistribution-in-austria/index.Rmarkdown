@@ -16,9 +16,7 @@ image:
   preview_only: no
 projects: []
 ---
-<script type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F,
@@ -352,13 +350,13 @@ As control variables such variables have been chosen that might influence expect
 ## Model
 To analyse the data the following multilevel model will be applied with random slopes and random intercepts for household income and gender:
 
-![model](model.png 'model')
 
-```{=latex}
-$$
+{{< math >}}$$
 \begin{aligned}
   \operatorname{gincdif}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
-    \mu &=\alpha_{j[i],k[i]} + \beta_{1j[i]}(\operatorname{hinctnta}) + \beta_{2}(\operatorname{hhmmb}) + \beta_{3k[i]}(\operatorname{gndr}_{\operatorname{female}}) + \beta_{4}(\operatorname{agea}) + \beta_{5}(\operatorname{agea\ *\ agea}) \\    
+    \mu &=\alpha_{j[i],k[i]} + \beta_{1j[i]}(\operatorname{hhincome})\ + \\
+    &\quad \beta_{2}(\operatorname{hhmembers}) + \beta_{3k[i]}(\operatorname{gender}_{\operatorname{female}})\ + \\
+    &\quad \beta_{4}(\operatorname{age}) + \beta_{5}(\operatorname{age\ *\ age}) \\    
 \left(
   \begin{array}{c} 
     \begin{aligned}
@@ -383,8 +381,8 @@ $$
      \rho_{\beta_{1j}\alpha_{j}} & \sigma^2_{\beta_{1j}}
   \end{array}
 \right)
- \right)
-    \text{, for year j = 1,} \dots \text{,J} \\    
+ \right) \\
+    &\text{for year j = 1,} \dots \text{,J} \\    
 \left(
   \begin{array}{c} 
     \begin{aligned}
@@ -409,74 +407,13 @@ $$
      \rho_{\beta_{3k}\alpha_{k}} & \sigma^2_{\beta_{3k}}
   \end{array}
 \right)
- \right)
-    \text{, for year.1 k = 1,} \dots \text{,K}
-\end{aligned}
-$$
-```
+ \right) \\
+    &\text{for year j = 1,} \dots \text{,J} \\    
+\end{aligned}$$
 
-$$
-\begin{aligned}
-  \operatorname{gincdif}_{i}  &\sim N \left(\mu, \sigma^2 \right) \\
-    \mu &=\alpha_{j[i],k[i]} + \beta_{1j[i]}(\operatorname{hinctnta}) + \beta_{2}(\operatorname{hhmmb}) + \beta_{3k[i]}(\operatorname{gndr}_{\operatorname{female}}) + \beta_{4}(\operatorname{agea}) + \beta_{5}(\operatorname{agea\ *\ agea}) \\    
-\left(
-  \begin{array}{c} 
-    \begin{aligned}
-      &\alpha_{j} \\
-      &\beta_{1j}
-    \end{aligned}
-  \end{array}
-\right)
-  &\sim N \left(
-\left(
-  \begin{array}{c} 
-    \begin{aligned}
-      &\gamma_{0}^{\alpha} + \gamma_{1}^{\alpha}(\operatorname{GINI}) \\
-      &\mu_{\beta_{1j}}
-    \end{aligned}
-  \end{array}
-\right)
-, 
-\left(
-  \begin{array}{cc}
-     \sigma^2_{\alpha_{j}} & \rho_{\alpha_{j}\beta_{1j}} \\ 
-     \rho_{\beta_{1j}\alpha_{j}} & \sigma^2_{\beta_{1j}}
-  \end{array}
-\right)
- \right)
-    \text{, for year j = 1,} \dots \text{,J} \\    
-\left(
-  \begin{array}{c} 
-    \begin{aligned}
-      &\alpha_{k} \\
-      &\beta_{3k}
-    \end{aligned}
-  \end{array}
-\right)
-  &\sim N \left(
-\left(
-  \begin{array}{c} 
-    \begin{aligned}
-      &\mu_{\alpha_{k}} \\
-      &\mu_{\beta_{3k}}
-    \end{aligned}
-  \end{array}
-\right)
-, 
-\left(
-  \begin{array}{cc}
-     \sigma^2_{\alpha_{k}} & \rho_{\alpha_{k}\beta_{3k}} \\ 
-     \rho_{\beta_{3k}\alpha_{k}} & \sigma^2_{\beta_{3k}}
-  \end{array}
-\right)
- \right)
-    \text{, for year.1 k = 1,} \dots \text{,K}
-\end{aligned}
-$$
+{{< /math >}}
 
 
-
-$f(x) = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \beta_4 (x-\xi)^3_+$
 
 Furthermore, the same model will be applied with mean-median-ratio instead of the GINI-coefficient to make results more robust. Another model that will be used with the same intention is a linear regression model with clustered standard errors and the GINI-coefficient as inequality measure.
 

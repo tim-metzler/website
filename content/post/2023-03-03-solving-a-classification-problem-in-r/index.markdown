@@ -1,8 +1,8 @@
 ---
-title: Solving a classification problem in R
+title: Classification of User Reviews
 author: Tim Metzler
 date: '2023-03-03'
-slug: solving-a-classification-problem-in-r
+slug: classification-of-user-reviews
 categories: []
 tags: []
 subtitle: 'Data Scientist Associate Practical Exam'
