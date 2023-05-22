@@ -335,10 +335,10 @@ The effect of household income is statistically significant, with the direction 
    <td style="text-align:center;">  </td>
   </tr>
   <tr>
-   <td style="text-align:left;box-shadow: 0px 1px"> SD (Observations) </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> 1.0137 </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> 1.0139 </td>
-   <td style="text-align:center;box-shadow: 0px 1px">  </td>
+   <td style="text-align:left;box-shadow: 0px 1.5px"> SD (Observations) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> 1.0137 </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> 1.0139 </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px">  </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Num.Obs. </td>

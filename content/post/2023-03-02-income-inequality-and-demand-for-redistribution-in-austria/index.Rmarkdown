@@ -44,7 +44,7 @@ library(ggrepel)
 library(gtsummary)
 library(modelsummary)
 library(kableExtra)
-library(equatiomatic)
+#library(equatiomatic)
 library(knitr)
 library(ggpubr) 
 
