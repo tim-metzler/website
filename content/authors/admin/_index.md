@@ -38,7 +38,7 @@ social:
 #  link: 
 - icon: github
   icon_pack: fab
-  link: https://github.com/
+  link: https://github.com/tim-metzler
 - icon: linkedin
   icon_pack: fab
   link: https://www.linkedin.com/in/tim-m-4ba977255/
