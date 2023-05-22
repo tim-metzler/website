@@ -50,6 +50,7 @@ status:
 superuser: true
 title: 
 ---
+“Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.”
 
-I am Tim Metzler, a sociology student at the University of Bielefeld. My research interests include sociology of work, econometrics and quantitative research methods in general.
+I am Tim Metzler, a sociology student at the University of Bielefeld and you found my website. Take a look around and you will find some projects I am working on. My interests include sociology of work, econometrics and quantitative research methods in general. 
 {style="text-align: justify;"}
