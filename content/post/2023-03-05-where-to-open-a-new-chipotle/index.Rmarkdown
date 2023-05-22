@@ -45,7 +45,7 @@ head(chipotle)
 <p><code>leaflet</code> maps work with the <code>%&gt;%</code> operator so we can pipe our <code>chipotle</code> data directly into a chain of function calls to produce an interactive map. All of the Chipotle locations have already been geocoded. The <code>leaflet</code> package will scan our column names for variables that are likely lat and lon and if we use a common naming convention (e.g., lat/lon, latitude/longitude, or lat/lng), <code>leaflet</code> will automatically know which columns contain our coordinates. </p>
 <p>Because of their interactive features <code>leaflet</code> maps can be especially helpful for exploratory data analyses. After we make our first map take a minute or two to zoom and pan the map to explore where Chipotle locations have closed. </p>
 
-```{r closed, echo = T}
+```{r closed, echo = T, results = F}
 # Create a leaflet map of all closed Chipotle stores
 closed_chipotles <- 
 chipotle %>% 
@@ -100,7 +100,7 @@ By mapping all of the Chipotle locations on an interactive <code>leaflet</code> 
 
 
 
-```{r open, echo = T}
+```{r open, echo = T, results=F}
 # Pipe chipotle_open into a chain of leaflet functions
 chipotle_heatmap <- 
 chipotle_open %>% 
@@ -178,7 +178,7 @@ https://juliasilge.com/blog/using-tidycensus/) blog post by Julia Silge.  </p>
 
 
 
-```{r 7, echo = F, error=T}
+```{r 7, echo = F, error=T, results = F}
 # Load south_dakota_pop.rds into an object called south_dakota_pop
 load("datasets/sdkp.Rda")
 # Create color palette to color map by county population estimate
@@ -237,7 +237,7 @@ chipotle_market_research
 <p>When using a categorical variable to create a color palette, colors can be mapped directly to the levels of the factor (i.e., there is one color in the palette for each level of the factor) or the palette can be interpolated by the <code>colorFactor</code> function to create the necessary number of colors. </p>
 
 
-```{r 9 , echo = T}
+```{r 9 , echo = T, results = F}
 # Create a blue and red color palette to distinguish between open and proposed stores
 pal <- colorFactor(palette = c("Blue", "Red"), domain = c("open", "proposed"))
 
@@ -272,7 +272,7 @@ sd_proposed_map
 <p>Where should the next Chipotle be opened (hint: there has never been a wrong answer to this question!)? </p>
 
 
-```{r 10, echo = T}
+```{r 10, echo = T, results = F}
 # load the Voronoi polygon data 
 load("datasets/polys.Rda")
 
@@ -307,10 +307,4 @@ voronoi_map
 <li>drawing circles with 100-mile radii around each proposed location, and</li>
 <li>mapping Voronoi polygons to estimate the area covered by each proposed Chipotle, </li>
 </ul>
-<p>It all comes down to this: <strong>Where should the next Chipotle be opened?</strong></p>
-
-```{r 11, echo = T}
-# Where should the next Chipotle store be? 
-next_chipotle <- tibble(location = c("Rapid City, SD", "Sioux Falls, SD"),
-                       open_new_store = c(TRUE, FALSE))
-```
+<p>it seems that Rapid City, SD would be the best choice in regard to the area covered by the new location (zoom in if you can't see the cities). 
