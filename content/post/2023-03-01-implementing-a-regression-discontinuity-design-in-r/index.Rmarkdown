@@ -25,7 +25,9 @@ knitr::opts_chunk$set(echo = TRUE)
  <br>
   
 # 1. What is the regression discontinuity design?
+
 ## Chasing causality: Randomized controlled trials
+
 Suppose we are interested in the causal effect a certain treatment has on certain properties, for example the causal effect a certain drug has on the resting pulse.  The idea to get to the causal effect is simple
 1. Choose two groups and check the properties (in our case we would measure the resting pulse) we are interested in.
 2. Give the treatment (in our case the drug of interest) to one of the groups.
@@ -38,14 +40,18 @@ Suppose we are interested in the causal effect a certain treatment has on certai
 **Problem**: It is not always possible to conduct RCT. If we want to assess the effect of certain political measures for example it can be difficult to randomly assign whether someone gets the treatment or not. If we are interested in the effect of a certain tax for example, it would probably be quite problematic to randomly tax some people while others don't have to pay the tax. 
 
 ## Regression discontinuity design
+
 Regression discontinuity designs (RDD) are quasi-experimental designs that exploit cut-offs, for example in political measures, to form a control and treatment group that are - at least close around the cut-off date - equal without the need for randomization. To get back to our tax example. While people might protest if they are randomly chosen to pay a tax while others don't have to pay, new taxes *are* introduced every now and then. Suppose that everyone has to pay a new tax from a certain date on. The idea of RDD is to form two groups: One before the cutoff date and one after the cutoff date. The necessary assumption for RDD to work is that both groups are equal except for having to pay the tax or not, at least shortly before and after the cut-off date. It is not implausible to assume that a population does not significantly change the moment a new tax is introduced. That assumption can be violated though, for example if a lot of political measures change around the same date. The question whether the two groups can be considered to be equal has to be judged case-by-case. *If* they can be considered equal though, we can treat the differences in the groups as causal effects again. So basically we exploit external cut-offs of some sort to create control and treatment groups and then treat them as we would treat them in a RCT, i.e. look at the differences between the groups after the treatment and interpret that difference as a causal effect of the treatment. 
 
 
 # 2. How to implement RDD in R
+
 ## General idea
+
 The general idea of implementing RDD in R is pretty easy: We apply a linear regression model and include a dummy variable indicating whether an observation is before or after the cut-off date. The effect of that dummy variable is than considered to be the causal effect of treatment. RDD are therefore implementation-wise basically just regular linear regressions, as we will see shortly.
 
 ## Preparations
+
 ### Loading necessary R packages. 
 
 ```{r libraries, warning = F, message = F}
@@ -65,6 +71,7 @@ options(scipen = 9)
 
 
 ### Creating a function to plot the regression curves
+
 The following function is used to create illustrations of the regressions.
 ```{r graph_function, echo=T}
 
@@ -99,6 +106,7 @@ plot_with_ci = function(model, response = anyrecid, lim_bandwith = F, lower, upp
 ```
 
 ### Importing data
+
 Importing the data set "fl_offenders_ewifo.dta":
 
 ```{r import}
@@ -182,7 +190,9 @@ Which interpretation is correct can obviously have large influences on how to ju
 <br>
 
 ## 3. Non-parametric approach 
+
 ### Idea
+
 As said before the idea is simply to estimate the model in a limited time frame around the cutoff.
 
 To do so in R we will simply subset the data, in the following example using a time frame of +/- 212 days around the cutoff:
@@ -229,9 +239,11 @@ modelsummary(models2,
   <br>
   
 ### Table 3 from Snapping Back  
+
 In the following parts Table 3 from the Snapping Back paper will be recreated. Technically there is nothing new, the only change is in the used bandwith and type of recidivism as dependent variable.
 
 #### Panel A: optimal bandwith
+
 There exist several algorithms to calculate the optimal bandwith to get enough information to use on the one hand while not falling for non-linear longterm trends on the other hand. The values used here are simply those calculated by Tuttle.
 
 ```{r panela}
@@ -295,6 +307,7 @@ modelsummary(models4,
   <br>
   
 ### Calculating optimal bandwidth
+
 The optimal bandwith can generally be calculated with the function *IKbandwith* from the *rdd* package. The function does not work on the specific data here though, for unknown reasons.
 
 ```{r optimal_package, error= T}
