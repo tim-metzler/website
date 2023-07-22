@@ -79,12 +79,18 @@ sections:
       organization_url: https://www.datacamp.com
       title: Data Scientist with R
       url: "https://app.datacamp.com/learn/career-tracks/data-scientist-with-r"
-    - certificate_url: https://www.datacamp.com/statement-of-accomplishment/track/9b26d6e307ec35dc65d6b9a54c63112f4337e2d3
+#    - certificate_url: https://www.datacamp.com/statement-of-accomplishment/track/9b26d6e307ec35dc65d6b9a# 54c63112f4337e2d3
+#      date_end: ""
+#      date_start: "2022-11-01"
+#      organization: DataCamp
+#      organization_url: https://www.datacamp.com
+#      title: Data Analyst with R
+    - certificate_url: https://www.datacamp.com/statement-of-accomplishment/track/44f683cef09dde117cb1fe1fe57fa9685b2325cc
       date_end: ""
-      date_start: "2022-11-01"
+      date_start: "2023-06-06"
       organization: DataCamp
       organization_url: https://www.datacamp.com
-      title: Data Analyst with R
+      title: SQL Fundamentals
     subtitle: null
     title: Accomplish&shy;ments
   design:
