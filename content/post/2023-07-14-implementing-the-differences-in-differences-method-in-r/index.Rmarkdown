@@ -6,7 +6,7 @@ slug: implementing-the-differences-in-differences-method-in-r
 categories: []
 tags: []
 subtitle: ''
-summary: ''
+summary: 'This post shows how to implement the difference-in-differences method design in R. The data is taken from Marcus, Jan, Thomas Siedler, and Nicolas R. Ziebarth. 2022. "The Long-Run Effects of Sports Club Vouchers for Primary School Children." American Economic Journal: Economic Policy, 14 (3): 128-65. '
 authors: []
 lastmod: '2023-07-14T13:38:45+02:00'
 featured: no
