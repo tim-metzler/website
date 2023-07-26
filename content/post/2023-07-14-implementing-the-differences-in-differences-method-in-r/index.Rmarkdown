@@ -1,0 +1,270 @@
+---
+title: Implementing the differences-in-differences method in R
+author: Tim Metzler
+date: '2023-07-14'
+slug: implementing-the-differences-in-differences-method-in-r
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2023-07-14T13:38:45+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. What is the Differences-in-Differences Method?
+
+## Introduction
+In the field of empirical research, understanding the causal impact of a particular intervention or policy is crucial. However, isolating the true causal effect from other confounding factors can be challenging. This is where the Differences-in-Differences (DiD) method comes to the rescue. This powerful technique allows researchers to estimate causal effects by comparing the changes in outcomes between treatment and control groups over time. In this blog post, we will explore the fundamental concepts behind the Differences-in-Differences method and how it has revolutionized causal inference.
+
+The Basics of Differences-in-Differences:
+The Differences-in-Differences method is built on the premise of exploiting a natural experiment or policy change that affects some individuals or groups differently. The key idea is to compare the differences in outcomes before and after the intervention between the treated group and the control group. By doing so, we can identify the causal effect of the intervention by accounting for the underlying time trends and other confounding factors.
+
+The Steps Involved:
+To apply the Differences-in-Differences method, several steps need to be followed:
+
+1. Identify treatment and control groups: Begin by identifying two groups: one that is subject to the intervention (treatment group) and another that is not (control group). These groups should be comparable in all relevant aspects except for the treatment.
+
+2. Pre-treatment and post-treatment periods: Determine the periods before and after the intervention. The pre-treatment period allows us to establish a baseline and capture the existing trend in outcomes. The post-treatment period reflects the effects of the intervention.
+
+3. Collect data: Gather data on outcomes of interest for both treatment and control groups during the pre-treatment and post-treatment periods. These outcomes should reflect the impact of the intervention.
+
+4. Calculate the differences: Calculate the differences in outcomes between the treatment and control groups for both the pre-treatment and post-treatment periods.
+
+5. Difference-in-Differences estimate: Finally, calculate the DiD estimate by subtracting the control group's pre-post difference from the treatment group's pre-post difference. This estimate provides an approximation of the causal effect of the intervention.
+
+Assumptions and Considerations:
+The Differences-in-Differences method relies on several assumptions to ensure the validity of the estimated causal effects. These include:
+
+1. Parallel trends assumption: The parallel trends assumption assumes that, in the absence of treatment, the trends in outcomes for the treatment and control groups would have followed a similar pattern over time. This assumption is crucial to attribute any changes in outcomes solely to the intervention.
+
+2. No spillover effects: It is assumed that the treatment does not have any spillover effects on the control group or that these effects are minimal.
+
+3. No selection bias: The assignment of individuals or groups into the treatment and control groups should be based on factors unrelated to the outcomes of interest.
+
+Advantages and Limitations:
+The Differences-in-Differences method offers several advantages:
+
+1. Causal identification: By comparing changes over time between the treatment and control groups, the DiD method allows for the identification of causal effects.
+
+2. Accounting for time-varying confounders: The DiD method helps control for unobserved or time-varying factors that may confound the relationship between the intervention and the outcomes.
+
+However, it is important to acknowledge the limitations of the DiD method:
+
+1. Assumption sensitivity: The validity of DiD estimates heavily relies on the assumptions made, such as the parallel trends assumption. Violations of these assumptions can bias the estimated causal effects.
+
+2. Limited to binary treatments: The DiD method is primarily designed for situations where the treatment is binary (i.e., a group either receives the treatment or does not). It may not be suitable for cases with multiple treatment levels or varying intensity.
+
+Conclusion:
+The Differences-in-Differences method has emerged as a valuable tool in causal inference, allowing researchers to estimate causal effects by leveraging natural experiments or policy changes. By comparing changes in outcomes over time between treatment and control groups, the DiD method provides insights into the causal impact of interventions. While it has its assumptions and limitations, when applied appropriately, the DiD method offers a robust framework for understanding the effects of policies and interventions in various domains, including economics, public health, and social sciences.
+
+# 2. Implementing the DiD method in R
+
+## General idea
+To implement the DiD method we will use a linear regression model with three predictors:
+1) A dummy variable indicating whether the observation belongs to the treatment or control group.
+2) A dummy variable indicating whether we are looking at a pre- or post-treatment observation.
+3) The interaction of 2) and 3).
+
+The effect of 1) equals the difference between the two groups pre-intervention, while the effect of 2) is equivalent to the time trend in the control group, i.e. the difference in the control group between post- and pre-intervention. The effect of both's interaction is the interesting part: The difference in changes over time between treatment and control group which can also be understood as the treatment's causal effect.
+
+## Data used
+To implement the DiD method we will use a study of Jan Marcus, Thomas Siedler and Nicolas R. Ziebarth named *The Long-Run Effects of Sports Club Vouchers for Primary School Children*. In 2009 the German state of Saxony distributed sports club membership vouchers to all third graders, in an attempt "to nudge primary school children into a long-term habit of exercising". The authors are answering the question whether this attempt was successful. Let's see how they did it:
+
+"To evaluate the voucher program’s effectiveness and its impact on awareness, membership take-up, physical activity, body weight, and health, we rely on two unique data sources, a register-based survey and administrative data from school health examinations. For the survey, we first contacted registry offices
+(Einwohnermeldeämter) in the German states of Saxony, Brandenburg, and Thuringia and obtained 80 percent random samples of residential addresses of treatment and control cohorts. In 2018, we then contacted these households by regular mail with an invitation to participate in an (incentivized) online survey, the Youth
+Leisure Online Survey (YOLO), which we designed for the purpose of this study. "
+
+They then used registry data to compare characteristics of survey participants and nonparticipants to see whether YOLO participation was affected by the voucher program.
+
+
+## Preparations
+
+### Loading necessary R packages
+
+```{r libraries, warning = F, message = F}
+library(haven)      # reading stata data
+library(foreign)    # reading stata data
+library(stargazer)  # for publication-ready tables
+library(lmtest)     # Clustered standard errors
+library(sandwich)   # # Clustered standard errors
+```
+
+```{r scientific, echo=FALSE}
+options(scipen = 9)
+```
+
+### Importing dataset
+
+```{r data_import, warning = F, message = F}
+data = read_dta("msz_R.dta")  
+```
+
+
+#### Relevant variables
+The data set we use contains the following variables:
+
+|name| description|
+|---|---|
+|id             |unit of observation (student identifier)|
+|bula           |federal state|
+|year           |student cohort|
+|tbula          |Indicator for the federal state with treatment (0/1)|
+|tcoh           |Indicator for student cohort with treatment (0/1)|
+|treat          |Interaction between tbula and tcoh|
+|cityno         |Index for city|
+|kommheard      |Outcome: program (voucher) known|
+|kommgotten     |Outcome: voucher received|
+|kommused       |Outcome: voucher redeemed|
+|sportsclub     |Outcome: member of sports club (in 2018)|
+|sport_hrs      |Outcome: weekly hours of sport|
+|oweight        |Outcome: overweight|
+|sportsclub_4_7 |Sportsclub membership before versus not|
+|newspaper      |Newspaper at home versus not|
+|art_at_home    |Art at home versus not|
+|academictrack  |Academic track versus not|
+|female         |Female versus male|
+|urban          |Urban versus rural|
+
+### Regression models
+In the above table several variables are marked as outcome variables. Those are the variables for which we want to know, whether the state program had a causal influence on them. To do so we will implement regression models as discussed earlier, with one model per outcome variable. Except for the outcome variable, the models don't differ, which makes sense, since we want to measure the influence of the same program, just on different things.
+The indicator variables for federal state with treatment and student cohort with treatment are the dummy variables 1) and 2). The federal state with treatment variable indicates the treatment vs control group, with the control group being those federal states without the voucher program. The student cohort variable indicates whether we are in the cohort pre- or post-treatment. The last missing pice is simply the interaction between both:
+
+
+```{r models, warning = F, message = F}
+lm_kommheard = lm(kommheard ~ tbula +tcoh+tbula*tcoh, data = data)
+lm_kommgotten = lm(kommgotten ~ tbula +tcoh+tbula*tcoh, data = data)    
+lm_kommused = lm(kommused ~ tbula +tcoh+tbula*tcoh, data = data)     
+lm_sportsclub = lm(sportsclub ~ tbula +tcoh+tbula*tcoh, data = data)   
+lm_sport_hrs  = lm(sport_hrs ~ tbula +tcoh+tbula*tcoh, data = data)   
+lm_oweight = lm(oweight ~ tbula +tcoh+tbula*tcoh, data = data)
+
+#summary(lm_kommheard)
+```
+
+Either run the summary() commands for each model to see the effect sizes and other measures, or use the below stargazer() function for a html table containing each model:
+```{r stargazer_fix, warning = F, message = F, eval = F}
+# use this fix for stargazer by alexeyknorre if you receive the "Error in if (is.na(s)) [...]" message
+## Quick fix for stargazer <= 5.2.3 is.na() issue with long model names in R >= 4.2
+# Unload stargazer if loaded
+detach("package:stargazer",unload=T)
+# Delete it
+remove.packages("stargazer")
+# Download the source
+download.file("https://cran.r-project.org/src/contrib/stargazer_5.2.3.tar.gz", destfile = "stargazer_5.2.3.tar.gz")
+# Unpack
+untar("stargazer_5.2.3.tar.gz")
+# Read the sourcefile with .inside.bracket fun
+stargazer_src <- readLines("stargazer/R/stargazer-internal.R")
+# Move the length check 5 lines up so it precedes is.na(.)
+stargazer_src[1990] <- stargazer_src[1995]
+stargazer_src[1995] <- ""
+# Save back
+writeLines(stargazer_src, con="stargazer/R/stargazer-internal.R")
+# Compile and install the patched package
+install.packages("stargazer", repos = NULL, type="source")
+#load package
+library(stargazer)
+```
+
+
+```{r stargazer,warning = F, message = F, eval = F}
+stargazer(lm_kommheard, lm_kommgotten, lm_kommused, lm_sportsclub, lm_sport_hrs, lm_oweight, type = "html")
+```
+
+
+<table style="text-align:center"><tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="6"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="6" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td>kommheard</td><td>kommgotten</td><td>kommused</td><td>sportsclub</td><td>sport_hrs</td><td>oweight</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td><td>(5)</td><td>(6)</td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">tbula</td><td>0.107<sup>***</sup></td><td>0.035<sup>***</sup></td><td>0.023<sup>***</sup></td><td>-0.013</td><td>-0.018</td><td>-0.021<sup>*</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.011)</td><td>(0.009)</td><td>(0.007)</td><td>(0.016)</td><td>(0.133)</td><td>(0.012)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">tcoh</td><td>0.006</td><td>0.002</td><td>0.002</td><td>0.110<sup>***</sup></td><td>0.559<sup>***</sup></td><td>-0.050<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.010)</td><td>(0.008)</td><td>(0.006)</td><td>(0.014)</td><td>(0.117)</td><td>(0.010)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">tbula:tcoh</td><td>0.272<sup>***</sup></td><td>0.200<sup>***</sup></td><td>0.122<sup>***</sup></td><td>0.004</td><td>-0.069</td><td>0.005</td></tr>
+<tr><td style="text-align:left"></td><td>(0.013)</td><td>(0.011)</td><td>(0.009)</td><td>(0.019)</td><td>(0.159)</td><td>(0.014)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>0.022<sup>***</sup></td><td>0.003</td><td>0.002</td><td>0.347<sup>***</sup></td><td>4.308<sup>***</sup></td><td>0.201<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.008)</td><td>(0.007)</td><td>(0.005)</td><td>(0.012)</td><td>(0.099)</td><td>(0.009)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>13,334</td><td>13,334</td><td>13,334</td><td>13,334</td><td>13,334</td><td>13,334</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.201</td><td>0.137</td><td>0.080</td><td>0.011</td><td>0.003</td><td>0.004</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.201</td><td>0.137</td><td>0.080</td><td>0.011</td><td>0.003</td><td>0.004</td></tr>
+<tr><td style="text-align:left">Residual Std. Error (df = 13330)</td><td>0.348</td><td>0.278</td><td>0.230</td><td>0.491</td><td>4.173</td><td>0.362</td></tr>
+<tr><td style="text-align:left">F Statistic (df = 3; 13330)</td><td>1,120.617<sup>***</sup></td><td>706.422<sup>***</sup></td><td>386.760<sup>***</sup></td><td>48.763<sup>***</sup></td><td>14.870<sup>***</sup></td><td>18.071<sup>***</sup></td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="6" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>
+
+
+We see that in some models the treatment effect, i.e. **tbula:tcoh** is significant, while in others it's not. More specifically the treatment has a significant effect on people having heard from, gotten and used the program, while there is no significant effect of the treatment on the aimed at behavior, e.g. hours of sport. Therefore, these results provide no evidence of the program achieving its goal of getting children to make more sport. Note that the above models were kept pretty simple to demonstrate the general implementation of the DiD method. There are more things on could model, for example fixed effects for some of the unused variables, like **female**, **urban** etc.
+
+The code to include those effects is quite straight-forward:
+
+```{r models2, warning = F, message = F}
+lm2_kommheard = lm(kommheard ~ tbula +tcoh+tbula*tcoh+newspaper+art_at_home+academictrack+female+urban, data = data)
+lm2_kommgotten = lm(kommgotten ~ tbula +tcoh+tbula*tcoh+newspaper+art_at_home+academictrack+female+urban, data = data)
+lm2_kommused = lm(kommused ~ tbula +tcoh+tbula*tcoh+newspaper+art_at_home+academictrack+female+urban, data = data)
+lm2_sportsclub = lm(sportsclub ~ tbula +tcoh+tbula*tcoh+newspaper+art_at_home+academictrack+female+urban, data = data)
+lm2_sport_hrs  = lm(sport_hrs ~ tbula +tcoh+tbula*tcoh+newspaper+art_at_home+academictrack+female+urban, data = data)
+lm2_oweight = lm(oweight ~ tbula +tcoh+tbula*tcoh+newspaper+art_at_home+academictrack+female+urban, data = data)
+
+#summary(lm2_kommheard)
+```
+
+The stargazer command stays almost the same:
+```{r stargazer2,warning = F, message = F, eval = F}
+stargazer(lm2_kommheard, lm2_kommgotten, lm2_kommused, lm2_sportsclub, lm2_sport_hrs, lm2_oweight, type = "html")
+```
+<table style="text-align:center"><tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="6"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="6" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td>kommheard</td><td>kommgotten</td><td>kommused</td><td>sportsclub</td><td>sport_hrs</td><td>oweight</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td><td>(5)</td><td>(6)</td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">tbula</td><td>0.110<sup>***</sup></td><td>0.038<sup>***</sup></td><td>0.026<sup>***</sup></td><td>-0.018</td><td>-0.098</td><td>-0.013</td></tr>
+<tr><td style="text-align:left"></td><td>(0.011)</td><td>(0.009)</td><td>(0.007)</td><td>(0.016)</td><td>(0.134)</td><td>(0.012)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">tcoh</td><td>-0.015</td><td>-0.013</td><td>-0.007</td><td>0.045<sup>***</sup></td><td>0.406<sup>***</sup></td><td>-0.015</td></tr>
+<tr><td style="text-align:left"></td><td>(0.010)</td><td>(0.008)</td><td>(0.007)</td><td>(0.014)</td><td>(0.121)</td><td>(0.011)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">newspaper</td><td>0.029<sup>***</sup></td><td>0.013<sup>***</sup></td><td>0.018<sup>***</sup></td><td>0.067<sup>***</sup></td><td>0.456<sup>***</sup></td><td>-0.017<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.006)</td><td>(0.005)</td><td>(0.004)</td><td>(0.009)</td><td>(0.074)</td><td>(0.006)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">art_at_home</td><td>0.034<sup>***</sup></td><td>0.027<sup>***</sup></td><td>0.013<sup>***</sup></td><td>0.023<sup>**</sup></td><td>0.120</td><td>-0.040<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.007)</td><td>(0.006)</td><td>(0.005)</td><td>(0.010)</td><td>(0.082)</td><td>(0.007)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">academictrack</td><td>0.037<sup>***</sup></td><td>0.028<sup>***</sup></td><td>0.016<sup>***</sup></td><td>0.146<sup>***</sup></td><td>0.295<sup>***</sup></td><td>-0.084<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.007)</td><td>(0.005)</td><td>(0.004)</td><td>(0.009)</td><td>(0.078)</td><td>(0.007)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">female</td><td>0.010</td><td>-0.003</td><td>-0.006</td><td>-0.064<sup>***</sup></td><td>-1.187<sup>***</sup></td><td>-0.038<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.006)</td><td>(0.005)</td><td>(0.004)</td><td>(0.009)</td><td>(0.073)</td><td>(0.006)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">urban</td><td>-0.005</td><td>-0.009<sup>*</sup></td><td>-0.009<sup>**</sup></td><td>0.027<sup>***</sup></td><td>0.305<sup>***</sup></td><td>-0.027<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.007)</td><td>(0.005)</td><td>(0.004)</td><td>(0.009)</td><td>(0.078)</td><td>(0.007)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">tbula:tcoh</td><td>0.274<sup>***</sup></td><td>0.202<sup>***</sup></td><td>0.122<sup>***</sup></td><td>0.009</td><td>-0.027</td><td>0.005</td></tr>
+<tr><td style="text-align:left"></td><td>(0.013)</td><td>(0.011)</td><td>(0.009)</td><td>(0.019)</td><td>(0.158)</td><td>(0.014)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>-0.028<sup>**</sup></td><td>-0.023<sup>***</sup></td><td>-0.013<sup>*</sup></td><td>0.286<sup>***</sup></td><td>4.435<sup>***</sup></td><td>0.291<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.011)</td><td>(0.009)</td><td>(0.007)</td><td>(0.015)</td><td>(0.129)</td><td>(0.011)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>13,156</td><td>13,156</td><td>13,156</td><td>13,156</td><td>13,156</td><td>13,156</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.208</td><td>0.143</td><td>0.084</td><td>0.041</td><td>0.028</td><td>0.025</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.208</td><td>0.142</td><td>0.083</td><td>0.040</td><td>0.028</td><td>0.025</td></tr>
+<tr><td style="text-align:left">Residual Std. Error (df = 13147)</td><td>0.347</td><td>0.277</td><td>0.229</td><td>0.483</td><td>4.114</td><td>0.359</td></tr>
+<tr><td style="text-align:left">F Statistic (df = 8; 13147)</td><td>432.054<sup>***</sup></td><td>273.176<sup>***</sup></td><td>150.762<sup>***</sup></td><td>70.204<sup>***</sup></td><td>47.580<sup>***</sup></td><td>42.377<sup>***</sup></td></tr>
+<tr><td colspan="7" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="6" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>
+
+We see that introducing the new fixed effects does not change our conclusion that there is no evidence for the program having the desired effect, even though a lot of the fixed effects are significant and provide interesting information about the relationship between hours of sport and being female for example.
