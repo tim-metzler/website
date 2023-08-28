@@ -11,7 +11,7 @@ education:
   - course: B.A. in Philosophy, Economics
     institution: University of Saarland
     year: 2017-2019
-email: "tim-metzler@web.de"
+email: "contact@timmetzler.com"
 first_name: Tim
 highlight_name: true
 interests:
