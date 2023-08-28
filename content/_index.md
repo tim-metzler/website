@@ -139,7 +139,7 @@ sections:
 #  id: projects
 - block: contact
   content:
-    email: tim-metzler@web.de
+    email: contact@timmetzler.com
     form:
       formspree:
         id: null
