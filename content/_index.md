@@ -139,7 +139,7 @@ sections:
 #  id: projects
 - block: contact
   content:
-    email: contact@timmetzler.com
+#    email: contact@timmetzler.com
     form:
       formspree:
         id: null
