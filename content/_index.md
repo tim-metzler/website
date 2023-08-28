@@ -139,13 +139,13 @@ sections:
 #  id: projects
 - block: contact
   content:
-#    email: contact@timmetzler.com
-    form:
-      formspree:
-        id: null
-      netlify:
-        captcha: true
-      provider: netlify
+    email: contact@timmetzler.com
+#    form:
+ #     formspree:
+  #      id: null
+   #   netlify:
+    #    captcha: true
+     # provider: netlify
     subtitle: null
     text: 
     title: Contact
