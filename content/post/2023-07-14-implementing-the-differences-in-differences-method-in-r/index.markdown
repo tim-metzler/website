@@ -1,8 +1,8 @@
 ---
-title: Implementing the differences-in-differences method in R
+title: Implementing the difference-in-differences method in R
 author: Tim Metzler
 date: '2023-07-14'
-slug: implementing-the-differences-in-differences-method-in-r
+slug: implementing-the-difference-in-differences-method-in-r
 categories: []
 tags: []
 subtitle: ''
