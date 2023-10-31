@@ -14,7 +14,7 @@ sections:
     - company: University Bielefeld
       company_logo: 
       company_url: ""
-      date_end: ""
+      date_end: "2023-10-01"
       date_start: "2021-04-01"
       description: |2-
           Research interests include:
