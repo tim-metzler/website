@@ -4,7 +4,7 @@ author: 'Tim Metzler'
 date: '2023-03-01'
 slug: implementing-a-regression-discontinuity-design-in-r
 categories: []
-tags: []
+tags: ["Tutorial", "R"]
 subtitle: ''
 summary: 'This post shows how to implement a regression discontinuity design in R. The data is taken from Tuttle, C. (2019), Snapping Back: Food Stamp Bans and Criminal Recidivism, American Economic Journal: Economic Policy 11(2), S. 301-327.'
 authors: []
@@ -16,6 +16,14 @@ image:
   preview_only: no
 projects: []
 ---
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 
 
@@ -188,34 +196,140 @@ modelsummary(models,
              stars = TRUE)
 ```
 
-
-
-|                  | rdd.1 'Basic' | rdd.2 'Quadratic' | rdd.3 'Interaction' | 
-|:-----------------|--------------:|------------------:|--------------------:|
-| (Intercept)      |    0.588***   |     -1.083***     |       0.140***      | 
-|                  |    (0.023)    |      (0.238)      |       (0.027)       | 
-| after            |    0.064***   |       0.014       |       0.080**       | 
-|                  |    (0.014)    |      (0.016)      |       (0.027)       | 
-| date             |    0.000***   |      0.000***     |                     | 
-|                  |    (0.000)    |      (0.000)      |                     | 
-| I(date^2)        |               |      0.000***     |                     | 
-|                  |               |      (0.000)      |                     | 
-| distnoab         |               |                   |        0.000        | 
-|                  |               |                   |       (0.000)       | 
-| after × distnoab |               |                   |        0.000        | 
-|                  |               |                   |       (0.000)       | 
-|:-----------------|--------------:|------------------:|--------------------:|
-| Num.Obs.         |     18850     |       18850       |        18850        | 
-| R2               |     0.027     |       0.029       |        0.027        | 
-| R2 Adj.          |     0.027     |       0.029       |        0.027        | 
-| AIC              |    10064.7    |      10017.2      |       10066.3       | 
-| BIC              |    10096.1    |      10056.4      |       10105.5       | 
-| Log.Lik.         |   -5028.367   |     -5003.590     |      -5028.133      | 
-| F                |    258.471    |                   |       172.465       | 
-| RMSE             |      0.32     |        0.32       |         0.32        | 
-
-__Note:__
-^^ + p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> rdd.1 'Basic' </th>
+   <th style="text-align:center;">  rdd.2 'Quadratic' </th>
+   <th style="text-align:center;">  rdd.3 'Interaction' </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.588*** </td>
+   <td style="text-align:center;"> -1.083*** </td>
+   <td style="text-align:center;"> 0.140*** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.023) </td>
+   <td style="text-align:center;"> (0.238) </td>
+   <td style="text-align:center;"> (0.027) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after </td>
+   <td style="text-align:center;"> 0.064*** </td>
+   <td style="text-align:center;"> 0.014 </td>
+   <td style="text-align:center;"> 0.080** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.014) </td>
+   <td style="text-align:center;"> (0.016) </td>
+   <td style="text-align:center;"> (0.027) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> date </td>
+   <td style="text-align:center;"> 0.000*** </td>
+   <td style="text-align:center;"> 0.000*** </td>
+   <td style="text-align:center;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.000) </td>
+   <td style="text-align:center;"> (0.000) </td>
+   <td style="text-align:center;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> I(date^2) </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.000*** </td>
+   <td style="text-align:center;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.000) </td>
+   <td style="text-align:center;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> distnoab </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after × distnoab </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 0.000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1.5px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.000) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 18850 </td>
+   <td style="text-align:center;"> 18850 </td>
+   <td style="text-align:center;"> 18850 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.027 </td>
+   <td style="text-align:center;"> 0.029 </td>
+   <td style="text-align:center;"> 0.027 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.027 </td>
+   <td style="text-align:center;"> 0.029 </td>
+   <td style="text-align:center;"> 0.027 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 10064.7 </td>
+   <td style="text-align:center;"> 10017.2 </td>
+   <td style="text-align:center;"> 10066.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 10096.1 </td>
+   <td style="text-align:center;"> 10056.4 </td>
+   <td style="text-align:center;"> 10105.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> -5028.367 </td>
+   <td style="text-align:center;"> -5003.590 </td>
+   <td style="text-align:center;"> -5028.133 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 258.471 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 172.465 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.32 </td>
+   <td style="text-align:center;"> 0.32 </td>
+   <td style="text-align:center;"> 0.32 </td>
+  </tr>
+</tbody>
+<tfoot><tr><td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+</table>
 
 If we compare the three models we find that the effect of **after** is statistically significant in the basic and interaction model but not in the quadratic model. If we look at the R^2 value all models are pretty similar, with the quadratic model explaining slightly more variance in recidivism. The results would allow two interpretations: 
 1. There is a significant effect of the foodstamp-ban on recidivism (Basic and Interaction model),
@@ -304,31 +418,122 @@ modelsummary(models2,
              vcov = c("classical", ~distnoab, "HC1"))
 ```
 
-
-
-|                  | nprdd.1  classical se | nprdd.1  clustered se | nprdd.1  robust se | 
-|:-----------------|----------------------:|----------------------:|-------------------:|
-| (Intercept)      |        0.1106**       |       0.1106***       |      0.1106***     | 
-|                  |        (0.0396)       |        (0.0328)       |      (0.0333)      | 
-| after            |         0.0803        |         0.0803        |       0.0803       | 
-|                  |        (0.0546)       |        (0.0493)       |      (0.0517)      | 
-| distnoab         |        -0.0004        |        -0.0004        |       -0.0004      | 
-|                  |        (0.0003)       |        (0.0003)       |      (0.0003)      | 
-| after × distnoab |         0.0005        |         0.0005        |       0.0005       | 
-|                  |        (0.0004)       |        (0.0004)       |      (0.0004)      | 
-|:-----------------|----------------------:|----------------------:|-------------------:|
-| Num.Obs.         |          791          |          791          |         791        | 
-| R2               |         0.005         |         0.005         |        0.005       | 
-| R2 Adj.          |         0.001         |         0.001         |        0.001       | 
-| AIC              |         731.5         |         731.5         |        731.5       | 
-| BIC              |         754.8         |         754.8         |        754.8       | 
-| Log.Lik.         |        -360.741       |        -360.741       |      -360.741      | 
-| F                |         1.288         |                       |        1.641       | 
-| RMSE             |          0.38         |          0.38         |        0.38        | 
-| Std.Errors       |          IID          |      by: distnoab     |         HC1        | 
-
-__Note:__
-^^ + p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> nprdd.1  classical se </th>
+   <th style="text-align:center;"> nprdd.1  clustered se </th>
+   <th style="text-align:center;"> nprdd.1  robust se </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.1106** </td>
+   <td style="text-align:center;"> 0.1106*** </td>
+   <td style="text-align:center;"> 0.1106*** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0396) </td>
+   <td style="text-align:center;"> (0.0328) </td>
+   <td style="text-align:center;"> (0.0333) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after </td>
+   <td style="text-align:center;"> 0.0803 </td>
+   <td style="text-align:center;"> 0.0803 </td>
+   <td style="text-align:center;"> 0.0803 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0546) </td>
+   <td style="text-align:center;"> (0.0493) </td>
+   <td style="text-align:center;"> (0.0517) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> distnoab </td>
+   <td style="text-align:center;"> -0.0004 </td>
+   <td style="text-align:center;"> -0.0004 </td>
+   <td style="text-align:center;"> -0.0004 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0003) </td>
+   <td style="text-align:center;"> (0.0003) </td>
+   <td style="text-align:center;"> (0.0003) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after × distnoab </td>
+   <td style="text-align:center;"> 0.0005 </td>
+   <td style="text-align:center;"> 0.0005 </td>
+   <td style="text-align:center;"> 0.0005 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1.5px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0004) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0004) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0004) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 791 </td>
+   <td style="text-align:center;"> 791 </td>
+   <td style="text-align:center;"> 791 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.005 </td>
+   <td style="text-align:center;"> 0.005 </td>
+   <td style="text-align:center;"> 0.005 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.001 </td>
+   <td style="text-align:center;"> 0.001 </td>
+   <td style="text-align:center;"> 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 731.5 </td>
+   <td style="text-align:center;"> 731.5 </td>
+   <td style="text-align:center;"> 731.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 754.8 </td>
+   <td style="text-align:center;"> 754.8 </td>
+   <td style="text-align:center;"> 754.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> -360.741 </td>
+   <td style="text-align:center;"> -360.741 </td>
+   <td style="text-align:center;"> -360.741 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 1.288 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;"> 1.641 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.38 </td>
+   <td style="text-align:center;"> 0.38 </td>
+   <td style="text-align:center;"> 0.38 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Std.Errors </td>
+   <td style="text-align:center;"> IID </td>
+   <td style="text-align:center;"> by: distnoab </td>
+   <td style="text-align:center;"> HC1 </td>
+  </tr>
+</tbody>
+<tfoot><tr><td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+</table>
  <br>
   <br>
   
@@ -371,30 +576,116 @@ modelsummary(models3,
              vcov =  ~distnoab)
 ```
 
-
-
-|                  | nprdd.1 'Recidivism' | nprdd.2 'Financially motivated recidivism' | nprdd.3 'Non-financially motivated recidivism' | 
-|:-----------------|---------------------:|-------------------------------------------:|-----------------------------------------------:|
-| (Intercept)      |       0.1106***      |                   0.0540*                  |                    0.0617**                    | 
-|                  |       (0.0328)       |                  (0.0239)                  |                    (0.0214)                    | 
-| after            |        0.0803        |                  0.1043**                  |                     -0.0100                    | 
-|                  |       (0.0493)       |                  (0.0398)                  |                    (0.0280)                    | 
-| distnoab         |        -0.0004       |                   -0.0003                  |                     -0.0001                    | 
-|                  |       (0.0003)       |                  (0.0002)                  |                    (0.0002)                    | 
-| after × distnoab |        0.0005        |                   0.0000                   |                     0.0002                     | 
-|                  |       (0.0004)       |                  (0.0003)                  |                    (0.0002)                    | 
-|:-----------------|---------------------:|-------------------------------------------:|-----------------------------------------------:|
-| Num.Obs.         |          791         |                     936                    |                       980                      | 
-| R2               |         0.005        |                    0.007                   |                      0.002                     | 
-| R2 Adj.          |         0.001        |                    0.004                   |                     -0.001                     | 
-| AIC              |         731.5        |                    468.4                   |                      62.9                      | 
-| BIC              |         754.8        |                    492.6                   |                      87.4                      | 
-| Log.Lik.         |       -360.741       |                  -229.178                  |                     -26.473                    | 
-| RMSE             |         0.38         |                    0.31                    |                      0.25                      | 
-| Std.Errors       |     by: distnoab     |                by: distnoab                |                  by: distnoab                  | 
-
-__Note:__
-^^ + p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> nprdd.1 'Recidivism' </th>
+   <th style="text-align:center;">  nprdd.2 'Financially motivated recidivism' </th>
+   <th style="text-align:center;">  nprdd.3 'Non-financially motivated recidivism' </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.1106*** </td>
+   <td style="text-align:center;"> 0.0540* </td>
+   <td style="text-align:center;"> 0.0617** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0328) </td>
+   <td style="text-align:center;"> (0.0239) </td>
+   <td style="text-align:center;"> (0.0214) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after </td>
+   <td style="text-align:center;"> 0.0803 </td>
+   <td style="text-align:center;"> 0.1043** </td>
+   <td style="text-align:center;"> -0.0100 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0493) </td>
+   <td style="text-align:center;"> (0.0398) </td>
+   <td style="text-align:center;"> (0.0280) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> distnoab </td>
+   <td style="text-align:center;"> -0.0004 </td>
+   <td style="text-align:center;"> -0.0003 </td>
+   <td style="text-align:center;"> -0.0001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0003) </td>
+   <td style="text-align:center;"> (0.0002) </td>
+   <td style="text-align:center;"> (0.0002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after × distnoab </td>
+   <td style="text-align:center;"> 0.0005 </td>
+   <td style="text-align:center;"> 0.0000 </td>
+   <td style="text-align:center;"> 0.0002 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1.5px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0004) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0003) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 791 </td>
+   <td style="text-align:center;"> 936 </td>
+   <td style="text-align:center;"> 980 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.005 </td>
+   <td style="text-align:center;"> 0.007 </td>
+   <td style="text-align:center;"> 0.002 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.001 </td>
+   <td style="text-align:center;"> 0.004 </td>
+   <td style="text-align:center;"> -0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 731.5 </td>
+   <td style="text-align:center;"> 468.4 </td>
+   <td style="text-align:center;"> 62.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 754.8 </td>
+   <td style="text-align:center;"> 492.6 </td>
+   <td style="text-align:center;"> 87.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> -360.741 </td>
+   <td style="text-align:center;"> -229.178 </td>
+   <td style="text-align:center;"> -26.473 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.38 </td>
+   <td style="text-align:center;"> 0.31 </td>
+   <td style="text-align:center;"> 0.25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Std.Errors </td>
+   <td style="text-align:center;"> by: distnoab </td>
+   <td style="text-align:center;"> by: distnoab </td>
+   <td style="text-align:center;"> by: distnoab </td>
+  </tr>
+</tbody>
+<tfoot><tr><td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+</table>
  <br>
   <br>
 
@@ -441,30 +732,116 @@ modelsummary(models4,
              vcov =  ~distnoab)
 ```
 
-
-
-|                  | nprdd.1.cs 'Recidivism' | nprdd.2.cs 'Financially motivated recidivism' | nprdd.3.cs 'Non-financially motivated recidivism' | 
-|:-----------------|------------------------:|----------------------------------------------:|--------------------------------------------------:|
-| (Intercept)      |        0.1124***        |                    0.0523*                    |                      0.0601**                     | 
-|                  |         (0.0323)        |                    (0.0241)                   |                      (0.0221)                     | 
-| after            |         0.0950*         |                    0.1003*                    |                      -0.0053                      | 
-|                  |         (0.0467)        |                    (0.0404)                   |                      (0.0286)                     | 
-| distnoab         |         -0.0004         |                    -0.0003                    |                      -0.0001                      | 
-|                  |         (0.0003)        |                    (0.0002)                   |                      (0.0002)                     | 
-| after × distnoab |          0.0002         |                     0.0001                    |                       0.0001                      | 
-|                  |         (0.0004)        |                    (0.0003)                   |                      (0.0002)                     | 
-|:-----------------|------------------------:|----------------------------------------------:|--------------------------------------------------:|
-| Num.Obs.         |           918           |                      918                      |                        918                        | 
-| R2               |          0.004          |                     0.007                     |                       0.002                       | 
-| R2 Adj.          |          0.001          |                     0.004                     |                       -0.001                      | 
-| AIC              |          836.3          |                     475.3                     |                        46.7                       | 
-| BIC              |          860.4          |                     499.4                     |                        70.8                       | 
-| Log.Lik.         |         -413.144        |                    -232.668                   |                      -18.362                      | 
-| RMSE             |           0.38          |                      0.31                     |                        0.25                       | 
-| Std.Errors       |       by: distnoab      |                  by: distnoab                 |                    by: distnoab                   | 
-
-__Note:__
-^^ + p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> nprdd.1.cs 'Recidivism' </th>
+   <th style="text-align:center;">  nprdd.2.cs 'Financially motivated recidivism' </th>
+   <th style="text-align:center;">  nprdd.3.cs 'Non-financially motivated recidivism' </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.1124*** </td>
+   <td style="text-align:center;"> 0.0523* </td>
+   <td style="text-align:center;"> 0.0601** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0323) </td>
+   <td style="text-align:center;"> (0.0241) </td>
+   <td style="text-align:center;"> (0.0221) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after </td>
+   <td style="text-align:center;"> 0.0950* </td>
+   <td style="text-align:center;"> 0.1003* </td>
+   <td style="text-align:center;"> -0.0053 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0467) </td>
+   <td style="text-align:center;"> (0.0404) </td>
+   <td style="text-align:center;"> (0.0286) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> distnoab </td>
+   <td style="text-align:center;"> -0.0004 </td>
+   <td style="text-align:center;"> -0.0003 </td>
+   <td style="text-align:center;"> -0.0001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0003) </td>
+   <td style="text-align:center;"> (0.0002) </td>
+   <td style="text-align:center;"> (0.0002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> after × distnoab </td>
+   <td style="text-align:center;"> 0.0002 </td>
+   <td style="text-align:center;"> 0.0001 </td>
+   <td style="text-align:center;"> 0.0001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1.5px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0004) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0003) </td>
+   <td style="text-align:center;box-shadow: 0px 1.5px"> (0.0002) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 918 </td>
+   <td style="text-align:center;"> 918 </td>
+   <td style="text-align:center;"> 918 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.004 </td>
+   <td style="text-align:center;"> 0.007 </td>
+   <td style="text-align:center;"> 0.002 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.001 </td>
+   <td style="text-align:center;"> 0.004 </td>
+   <td style="text-align:center;"> -0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 836.3 </td>
+   <td style="text-align:center;"> 475.3 </td>
+   <td style="text-align:center;"> 46.7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 860.4 </td>
+   <td style="text-align:center;"> 499.4 </td>
+   <td style="text-align:center;"> 70.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> -413.144 </td>
+   <td style="text-align:center;"> -232.668 </td>
+   <td style="text-align:center;"> -18.362 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.38 </td>
+   <td style="text-align:center;"> 0.31 </td>
+   <td style="text-align:center;"> 0.25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Std.Errors </td>
+   <td style="text-align:center;"> by: distnoab </td>
+   <td style="text-align:center;"> by: distnoab </td>
+   <td style="text-align:center;"> by: distnoab </td>
+  </tr>
+</tbody>
+<tfoot><tr><td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+</table>
  <br>
   <br>
   

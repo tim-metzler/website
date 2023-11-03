@@ -4,7 +4,7 @@ author: 'Tim Metzler'
 date: '2023-03-01'
 slug: implementing-a-regression-discontinuity-design-in-r
 categories: []
-tags: []
+tags: ["Tutorial", "R"]
 subtitle: ''
 summary: 'This post shows how to implement a regression discontinuity design in R. The data is taken from Tuttle, C. (2019), Snapping Back: Food Stamp Bans and Criminal Recidivism, American Economic Journal: Economic Policy 11(2), S. 301-327.'
 authors: []

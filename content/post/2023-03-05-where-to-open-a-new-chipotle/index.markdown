@@ -4,7 +4,7 @@ author: Tim Metzler
 date: '2023-03-05'
 slug: where-to-open-a-new-chipotle
 categories: []
-tags: []
+tags: ["Data Science"]
 subtitle: ''
 summary: 'A datacamp project using the leaflet package to find new possible Chiptole locations'
 authors: []

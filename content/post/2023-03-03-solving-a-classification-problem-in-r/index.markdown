@@ -4,7 +4,7 @@ author: Tim Metzler
 date: '2023-03-03'
 slug: classification-of-user-reviews
 categories: []
-tags: []
+tags: ["Data Science"]
 subtitle: 'Data Scientist Associate Practical Exam'
 summary: 'In this project binomial logistic regression and a random forest model will be used to solve a classification problem in R'
 authors: []

@@ -4,7 +4,7 @@ author: Tim Metzler
 date: '2023-03-02'
 slug: income-inequality-and-demand-for-redistribution-in-austria
 categories: []
-tags: []
+tags: ["Academic"]
 subtitle: ''
 summary: 'In this post a multilevel model is applied to European Social Survey data to look into the relation of income inequality and demand for redistribution in Austria'
 authors: []
